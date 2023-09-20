@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React from 'react';
 import styles from './highlight.module.css';
 
 interface HighlightProps {
@@ -7,10 +7,13 @@ interface HighlightProps {
 
 export const Highlight = (props: HighlightProps) => {
     const { searchText } = props;
-    const [inputText, setInputText] = useState<string>('');
-    const [highlightedText, setHighlightedText] = useState<(string | ReactNode)[]>('');
     const editableDivRef = React.useRef<HTMLDivElement>(null);
-    const textToShow = highlightedText.length > 0 ? highlightedText : inputText;
+
+    React.useEffect(() => {
+        if (editableDivRef.current) {
+            editableDivRef.current.focus();
+        }
+    }, []);
 
     const createRegex = () => {
         const searchTextRegex = searchText.map(word => `\\b${word}\\b`).join('|');
@@ -21,31 +24,40 @@ export const Highlight = (props: HighlightProps) => {
         const parts = text.split(createRegex());
         const highlightedParts = parts.map((part, index) => {
             const isHighlighted = searchText.includes(part.toLowerCase());
-            return isHighlighted ? (
-                <b key={index} className={styles.highlight}>
-                    {part}
-                </b>
-            ) : (
-                part
-            );
+            return isHighlighted ? `<b key=${index} class=${styles.highlight}>${part}</b>` : part;
         });
 
-        setHighlightedText(highlightedParts);
+        if (editableDivRef.current) {
+            editableDivRef.current.innerHTML = highlightedParts.join('');
+        }
     };
 
     const handleScanClick = () => {
         if (!editableDivRef.current) return;
-        const editedText = editableDivRef.current.innerText;
-        setInputText(editedText);
+        const editedText = editableDivRef.current.innerHTML;
         highlightAndSet(editedText);
+    };
+
+    const handleScanClear = () => {
+        if (editableDivRef.current) {
+            editableDivRef.current.innerHTML = '';
+        }
     };
 
     return (
         <div>
-            <div contentEditable="true" className={styles.text} ref={editableDivRef}>
-                {textToShow}
-            </div>
-            <button onClick={handleScanClick}>Scan</button>
+            <button onClick={handleScanClick} className={styles.button}>
+                Scan
+            </button>
+            <button onClick={handleScanClear} className={styles.button}>
+                Clear
+            </button>
+            <div
+                contentEditable="true"
+                className={styles.text}
+                ref={editableDivRef}
+                suppressContentEditableWarning={true}
+            />
         </div>
     );
 };

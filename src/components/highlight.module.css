@@ -3,9 +3,16 @@
     font-size: large;
 }
 
+.button {
+    margin: 16px;
+}
+
 .text {
     width: 900px;
-    height: 200px; /* Ваші стилі для textarea */
+    height: 400px;
 
     background-color: gray;
+
+    padding: 8px;
+    overflow: scroll
 }
