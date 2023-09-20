@@ -2,3 +2,10 @@
     color: green;
     font-size: large;
 }
+
+.text {
+    width: 900px;
+    height: 200px; /* Ваші стилі для textarea */
+
+    background-color: gray;
+}
