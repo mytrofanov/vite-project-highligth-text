@@ -36,7 +36,6 @@ export const Highlight = (props: HighlightProps) => {
     const handleScanClick = () => {
         if (!editableDivRef.current) return;
         const editedText = editableDivRef.current.innerText;
-        console.log(editedText);
         setInputText(editedText);
         highlightAndSet(editedText);
     };
