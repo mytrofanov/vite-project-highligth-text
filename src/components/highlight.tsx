@@ -31,7 +31,6 @@ export const Highlight = (props: HighlightProps) => {
             editableDivRef.current.focus();
         }
     }, []);
-    console.log('Highlight render');
 
     const handleScanClick = () => {
         if (!editableDivRef.current) return;
