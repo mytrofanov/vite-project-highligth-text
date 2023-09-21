@@ -113,11 +113,7 @@ const Text = () => {
         'ranch dressing',
     ];
 
-    return (
-        <div>
-            <Highlight searchText={wordList} />
-        </div>
-    );
+    return <Highlight searchText={wordList} />;
 };
 
 export default Text;
